@@ -13,9 +13,11 @@ class App extends React.Component {
 
   render() {
     return (
-      <Grid
-        blocks={this.state.blocks}
-      />
+      <div className='app'>
+        <Grid
+          blocks={this.state.blocks}
+        />
+      </div>
     );
   }
 }
