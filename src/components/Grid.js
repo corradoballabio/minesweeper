@@ -8,7 +8,7 @@ function Grid(props) {
             {row.map((block, j) => {
               return (
                 <button className={'block'}>
-                  {block.mine ? 'Y' : ''}
+                  {block.mine ? 'X' : block.risk}
                 </button>
               )
             })}
