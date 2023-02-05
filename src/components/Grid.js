@@ -1,15 +1,19 @@
+import Block from './Block'
+
 function Grid(props) {
 
   return (
     <div>
       {props.blocks.map((row, i) => {
         return (
-          <div className="grid-row">
+          <div key={i} className="grid-row">
             {row.map((block, j) => {
               return (
-                <button className={'block'}>
-                  {/*  */}
-                </button>
+                <Block
+                  key={j}
+                  mine={block.mine}
+                  risk={block.risk}
+                />
               )
             })}
           </div>
