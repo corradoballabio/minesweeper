@@ -29,6 +29,36 @@
 .hidden {
   background-image: url(./icons/block.png);
   background-size: cover;
+.risk_1 {
+  background-image: url(./icons/risk_1.png);
+}
+
+.risk_2 {
+  background-image: url(./icons/risk_2.png);
+}
+
+.risk_3 {
+  background-image: url(./icons/risk_3.png);
+}
+
+.risk_4 {
+  background-image: url(./icons/risk_4.png);
+}
+
+.risk_5 {
+  background-image: url(./icons/risk_5.png);
+}
+
+.risk_6 {
+  background-image: url(./icons/risk_6.png);
+}
+
+.risk_7 {
+  background-image: url(./icons/risk_7.png);
+}
+
+.risk_8 {
+  background-image: url(./icons/risk_8.png);
 }
 
 .app {
