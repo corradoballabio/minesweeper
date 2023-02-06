@@ -11,6 +11,7 @@ function Grid(props) {
               return (
                 <Block
                   key={j}
+                  hidden={block.hidden}
                   mine={block.mine}
                   risk={block.risk}
                 />
