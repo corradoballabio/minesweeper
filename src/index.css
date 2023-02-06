@@ -17,6 +17,13 @@
   padding: 0;
   text-align: center;
   width: 34px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+}
+
+.mined {
+  background-image: url(./icons/mine.png);
 }
 
 .hidden {

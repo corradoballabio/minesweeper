@@ -2,9 +2,9 @@ function Block(props) {
   return (
     <button
       key={1}
-    >
-      {props.mine ? 'X' : props.risk}
-      className={`block ${props.hidden && 'hidden'}`}
+      className={`block ${props.mine && 'mined'}`}
+      >
+      {props.mine ? '' : props.risk}
     </button>
   )
 }
