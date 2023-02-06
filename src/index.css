@@ -26,6 +26,10 @@
   background-image: url(./icons/block.png);
 }
 
+.hidden:hover {
+  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(./icons/block.png);
+}
+
 .mined {
   background-image: url(./icons/mine.png);
   background-size: 80%;
