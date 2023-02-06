@@ -50,11 +50,22 @@ class App extends React.Component {
     }, []);
   }
 
+  handleClick(coordinate) {
+    let [x, y] = coordinate
+    const blocks = this.state.blocks.slice()
+    blocks[x][y].hidden = false
+
+    this.setState({
+      blocks: blocks
+    })
+  }
+
   render() {
     return (
       <div className='app'>
         <Grid
           blocks={this.state.blocks}
+          onClick={(coordinate) => this.handleClick(coordinate)}
         />
       </div>
     );
