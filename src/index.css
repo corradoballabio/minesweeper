@@ -19,6 +19,11 @@
   width: 34px;
 }
 
+.hidden {
+  background-image: url(./icons/block.png);
+  background-size: cover;
+}
+
 .app {
   width:100%;
   display: flex;

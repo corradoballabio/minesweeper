@@ -15,6 +15,7 @@ class App extends React.Component {
   inizializeBlocks() {
     let arr = Array(this.rows * this.columns).fill().map((_, i) => {
       return {
+        hidden: true,
         risk: null,
         mine: Math.random() < this.difficulty
       }
