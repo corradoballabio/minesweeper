@@ -8,15 +8,59 @@
   background: #fff;
   border: 1px solid #999;
   float: left;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
+  line-height: 55px;
+  height: 55px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 55px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.hidden {
+  background-image: url(./icons/block.png);
+}
+
+.mined {
+  background-image: url(./icons/mine.png);
+  background-size: 80%;
+}
+
+.risk_1 {
+  background-image: url(./icons/risk_1.png);
+}
+
+.risk_2 {
+  background-image: url(./icons/risk_2.png);
+}
+
+.risk_3 {
+  background-image: url(./icons/risk_3.png);
+}
+
+.risk_4 {
+  background-image: url(./icons/risk_4.png);
+}
+
+.risk_5 {
+  background-image: url(./icons/risk_5.png);
+}
+
+.risk_6 {
+  background-image: url(./icons/risk_6.png);
+}
+
+.risk_7 {
+  background-image: url(./icons/risk_7.png);
+}
+
+.risk_8 {
+  background-image: url(./icons/risk_8.png);
 }
 
 .app {
