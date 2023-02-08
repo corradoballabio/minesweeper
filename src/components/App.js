@@ -45,13 +45,34 @@ class App extends React.Component {
   }
 
   handleClick(coordinate) {
-    let [x, y] = coordinate
-    const blocks = this.state.blocks.slice()
-    blocks[x][y].hidden = false
+    const [x, y] = coordinate
+    const tmpBlocks = this.state.blocks.slice()
+
+    if(tmpBlocks[x][y].mine) {
+      tmpBlocks[x][y].hidden = false
+    } else if (tmpBlocks[x][y].risk) {
+      tmpBlocks[x][y].hidden = false
+    } else {
+      tmpBlocks[x][y].hidden = false
+      this.displayNeighbors(coordinate, tmpBlocks)
+    }
 
     this.setState({
-      blocks: blocks
+      blocks: tmpBlocks
     })
+  }
+
+  displayNeighbors(clickedBlock, tmpBlocks) {
+    const blocksToCheck = this.getNeighbors(clickedBlock).filter(([x,y]) => tmpBlocks[x][y].hidden)
+
+    while(blocksToCheck.length) {
+      const [x, y] = blocksToCheck.pop()
+
+      tmpBlocks[x][y].hidden = false
+      if(!tmpBlocks[x][y].risk) {
+        this.getNeighbors([x, y]).filter(([i, j]) => tmpBlocks[i][j].hidden).forEach(coord => blocksToCheck.push(coord))
+      }
+    }
   }
 
   getNeighbors(coordinate) {
