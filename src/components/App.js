@@ -21,33 +21,27 @@ class App extends React.Component {
       }
     })
 
-    let mines = arr.reduce((acc, cell, i) => {
-      if(cell.mine) acc.push(i)
-      return acc
-    }, [])
-
-    mines.forEach((mine) => {
-      let left = mine%this.rows > 0
-      let right = mine%this.rows !== this.rows-1
-
-      if(left && mine-1 >= 0) arr[mine-1].risk++
-      if(right && mine+1 <= (this.rows * this.columns)) arr[mine+1].risk++
-
-      // above
-      if(mine-this.rows >= 0) arr[mine-this.rows].risk++
-      if(left && mine-this.rows-1 >= 0) arr[mine-this.rows-1].risk++
-      if(right && mine-this.rows+1 >= 0) arr[mine-this.rows+1].risk++
-
-      // below
-      if(mine+this.rows < (this.rows * this.columns)) arr[mine+this.rows].risk++
-      if(left && mine+this.rows-1 < (this.rows * this.columns)) arr[mine+this.rows-1].risk++
-      if(right && mine+this.rows+1 < (this.rows * this.columns)) arr[mine+this.rows+1].risk++
-    })
-
-    return arr.reduce((matrix, k, i) => {
+    let matrix = arr.reduce((matrix, k, i) => {
       i % this.rows === 0 ? matrix.push([k]) : matrix[matrix.length-1].push(k)
       return matrix;
     }, []);
+
+
+    let mines = matrix.reduce((acc, row, i) => {
+      row.forEach((block, j) => {
+        if(block.mine) acc.push([i, j])
+      })
+      return acc
+    }, [])
+
+    mines.forEach(coord => {
+      let neighbors = this.getNeighbors(coord)
+      neighbors.forEach(neighbor => {
+        const[x, y] = neighbor
+        matrix[x][y].risk++
+      })
+    })
+    return matrix
   }
 
   handleClick(coordinate) {
@@ -58,6 +52,30 @@ class App extends React.Component {
     this.setState({
       blocks: blocks
     })
+  }
+
+  getNeighbors(coordinate) {
+    const [x, y] = coordinate
+    const neighbors  = []
+
+    const isLeftBorder = y === 0
+    const isRightBorder = y === this.columns-1
+    const isTopBorder = x === 0
+    const isBottomBorder = x === this.rows-1
+
+    // side l-r
+    if(!isLeftBorder) neighbors.push([x, y-1])
+    if(!isRightBorder) neighbors.push([x, y+1])
+    // top c-l-r
+    if(!isTopBorder) neighbors.push([x-1, y])
+    if(!isTopBorder && !isLeftBorder) neighbors.push([x-1, y-1])
+    if(!isTopBorder && !isRightBorder) neighbors.push([x-1, y+1])
+    // bottom c-l-r
+    if(!isBottomBorder) neighbors.push([x+1, y])
+    if(!isBottomBorder && !isLeftBorder) neighbors.push([x+1, y-1])
+    if(!isBottomBorder && !isRightBorder) neighbors.push([x+1, y+1])
+
+    return neighbors
   }
 
   render() {
