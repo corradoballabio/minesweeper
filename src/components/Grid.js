@@ -14,8 +14,8 @@ function Grid(props) {
                 <Block
                   key={coordinate}
                   isFlagged={block.isFlagged}
-                  hidden={block.hidden}
-                  mine={block.mine}
+                  isHidden={block.isHidden}
+                  hasMine={block.hasMine}
                   risk={block.risk}
                   onClick={() => props.onClick(coordinate)}
                 />

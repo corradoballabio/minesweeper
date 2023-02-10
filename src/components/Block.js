@@ -1,8 +1,8 @@
 function Block(props) {
   const displayIcon =
     (props.isFlagged && 'flagged') ||
-    (props.hidden && 'hidden') ||
-    (props.mine && 'mined') ||
+    (props.isHidden && 'hidden') ||
+    (props.hasMine && 'mined') ||
     (props.risk && 'risk_'+props.risk)
 
   return (
