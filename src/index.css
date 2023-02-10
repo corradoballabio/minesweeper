@@ -11,6 +11,11 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
+.header {
+  padding: 1rem;
+  color: black;
+}
+
 .app {
   width:100%;
   display: flex;

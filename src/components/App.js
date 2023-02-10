@@ -106,6 +106,8 @@ class App extends React.Component {
           blocks={this.state.blocks}
           onClick={(coordinate) => this.handleClick(coordinate)}
         />
+        <ControlBoard
+        />
       </div>
     );
   }
