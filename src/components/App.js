@@ -63,6 +63,8 @@ class App extends React.Component {
     const [x, y] = coordinate
     const tmpBlocks = this.state.blocks.slice()
 
+    if(!tmpBlocks[x][y].isHidden) return
+
     if(this.state.isSafeMode) {
       tmpBlocks[x][y].isFlagged = !tmpBlocks[x][y].isFlagged
     } else if(tmpBlocks[x][y].hasMine) {
