@@ -1,5 +1,6 @@
 import React from 'react'
 import Grid from './Grid'
+import ControlBoard from './ControlBoard'
 
 class App extends React.Component {
   constructor(props) {
@@ -8,16 +9,18 @@ class App extends React.Component {
     this.columns = 9
     this.difficulty = 0.14 // easy = 12; medium = 16; hard = 20
     this.state = {
-      blocks: this.inizializeBlocks()
+      blocks: this.inizializeBlocks(),
+      isSafeMode: false
     }
   }
 
   inizializeBlocks() {
     let arr = Array(this.rows * this.columns).fill().map((_, i) => {
       return {
-        hidden: true,
+        isHidden: true,
+        isFlagged: false,
         risk: null,
-        mine: Math.random() < this.difficulty
+        hasMine: Math.random() < this.difficulty
       }
     })
 
@@ -29,7 +32,7 @@ class App extends React.Component {
 
     let mines = matrix.reduce((acc, row, i) => {
       row.forEach((block, j) => {
-        if(block.mine) acc.push([i, j])
+        if(block.hasMine) acc.push([i, j])
       })
       return acc
     }, [])
@@ -44,16 +47,32 @@ class App extends React.Component {
     return matrix
   }
 
-  handleClick(coordinate) {
+  handleNewGameClick() {
+    this.setState({
+      blocks: this.inizializeBlocks()
+    })
+  }
+
+  handleFlagClick() {
+    this.setState({
+      isSafeMode: !this.state.isSafeMode
+    })
+  }
+
+  handleBlockClick(coordinate) {
     const [x, y] = coordinate
     const tmpBlocks = this.state.blocks.slice()
 
-    if(tmpBlocks[x][y].mine) {
-      tmpBlocks[x][y].hidden = false
+    if(!tmpBlocks[x][y].isHidden) return
+
+    if(this.state.isSafeMode) {
+      tmpBlocks[x][y].isFlagged = !tmpBlocks[x][y].isFlagged
+    } else if(tmpBlocks[x][y].hasMine) {
+      tmpBlocks[x][y].isHidden = false
     } else if (tmpBlocks[x][y].risk) {
-      tmpBlocks[x][y].hidden = false
+      tmpBlocks[x][y].isHidden = false
     } else {
-      tmpBlocks[x][y].hidden = false
+      tmpBlocks[x][y].isHidden = false
       this.displayNeighbors(coordinate, tmpBlocks)
     }
 
@@ -63,14 +82,18 @@ class App extends React.Component {
   }
 
   displayNeighbors(clickedBlock, tmpBlocks) {
-    const blocksToCheck = this.getNeighbors(clickedBlock).filter(([x,y]) => tmpBlocks[x][y].hidden)
+    const blocksToCheck = this.getNeighbors(clickedBlock).filter(([x,y]) =>
+      !tmpBlocks[x][y].isFlagged && tmpBlocks[x][y].isHidden
+    )
 
     while(blocksToCheck.length) {
       const [x, y] = blocksToCheck.pop()
 
-      tmpBlocks[x][y].hidden = false
+      tmpBlocks[x][y].isHidden = false
       if(!tmpBlocks[x][y].risk) {
-        this.getNeighbors([x, y]).filter(([i, j]) => tmpBlocks[i][j].hidden).forEach(coord => blocksToCheck.push(coord))
+        this.getNeighbors([x, y]).filter(([i, j]) =>
+          !tmpBlocks[x][y].isFlagged && tmpBlocks[i][j].isHidden
+        ).forEach(coord => blocksToCheck.push(coord))
       }
     }
   }
@@ -104,7 +127,11 @@ class App extends React.Component {
       <div className='app'>
         <Grid
           blocks={this.state.blocks}
-          onClick={(coordinate) => this.handleClick(coordinate)}
+          onClick={(coordinate) => this.handleBlockClick(coordinate)}
+        />
+        <ControlBoard
+          onNewGameClick={() => this.handleNewGameClick()}
+          onFlagClick={() => this.handleFlagClick()}
         />
       </div>
     );

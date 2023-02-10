@@ -1,3 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0.5rem;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.header {
+  padding: 1rem;
+  color: black;
+}
+
+.app {
+  width:100%;
+  display: flex;
+  flex-direction: row;
+}
+
+ul {
+  list-style: none;
+  line-height: 3rem;
+}
+
 .grid-row:after {
   clear: both;
   content: "";
@@ -24,6 +53,10 @@
 
 .hidden {
   background-image: url(./icons/block.png);
+}
+
+.flagged {
+  background-image: url(./icons/flag.png);
 }
 
 .hidden:hover {
@@ -65,11 +98,4 @@
 
 .risk_8 {
   background-image: url(./icons/risk_8.png);
-}
-
-.app {
-  width:100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
 }
