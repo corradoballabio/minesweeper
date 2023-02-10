@@ -13,6 +13,7 @@ function Grid(props) {
               return (
                 <Block
                   key={coordinate}
+                  isFlagged={block.isFlagged}
                   hidden={block.hidden}
                   mine={block.mine}
                   risk={block.risk}

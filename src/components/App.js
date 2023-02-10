@@ -9,7 +9,8 @@ class App extends React.Component {
     this.columns = 9
     this.difficulty = 0.14 // easy = 12; medium = 16; hard = 20
     this.state = {
-      blocks: this.inizializeBlocks()
+      blocks: this.inizializeBlocks(),
+      isSafeMode: false
     }
   }
 
@@ -23,6 +24,7 @@ class App extends React.Component {
     let arr = Array(this.rows * this.columns).fill().map((_, i) => {
       return {
         hidden: true,
+        isFlagged: false,
         risk: null,
         mine: Math.random() < this.difficulty
       }
@@ -52,10 +54,18 @@ class App extends React.Component {
   }
 
   handleClick(coordinate) {
+  handleFlagClick() {
+    this.setState({
+      isSafeMode: !this.state.isSafeMode
+    })
+  }
+
     const [x, y] = coordinate
     const tmpBlocks = this.state.blocks.slice()
 
-    if(tmpBlocks[x][y].mine) {
+    if(this.state.isSafeMode) {
+      tmpBlocks[x][y].isFlagged = !tmpBlocks[x][y].isFlagged
+    } else if(tmpBlocks[x][y].mine) {
       tmpBlocks[x][y].hidden = false
     } else if (tmpBlocks[x][y].risk) {
       tmpBlocks[x][y].hidden = false
@@ -70,14 +80,18 @@ class App extends React.Component {
   }
 
   displayNeighbors(clickedBlock, tmpBlocks) {
-    const blocksToCheck = this.getNeighbors(clickedBlock).filter(([x,y]) => tmpBlocks[x][y].hidden)
+    const blocksToCheck = this.getNeighbors(clickedBlock).filter(([x,y]) =>
+      !tmpBlocks[x][y].isFlagged && tmpBlocks[x][y].hidden
+    )
 
     while(blocksToCheck.length) {
       const [x, y] = blocksToCheck.pop()
 
       tmpBlocks[x][y].hidden = false
       if(!tmpBlocks[x][y].risk) {
-        this.getNeighbors([x, y]).filter(([i, j]) => tmpBlocks[i][j].hidden).forEach(coord => blocksToCheck.push(coord))
+        this.getNeighbors([x, y]).filter(([i, j]) =>
+          !tmpBlocks[x][y].isFlagged && tmpBlocks[i][j].hidden
+        ).forEach(coord => blocksToCheck.push(coord))
       }
     }
   }
@@ -115,6 +129,7 @@ class App extends React.Component {
         />
         <ControlBoard
           onClick={() => this.newGame()}
+          onFlagClick={() => this.handleFlagClick()}
         />
       </div>
     );
