@@ -1,5 +1,6 @@
 import React from 'react'
 import Grid from './Grid'
+import ControlBoard from './ControlBoard'
 
 class App extends React.Component {
   constructor(props) {
@@ -10,6 +11,12 @@ class App extends React.Component {
     this.state = {
       blocks: this.inizializeBlocks()
     }
+  }
+
+  newGame() {
+    this.setState({
+      blocks: this.inizializeBlocks()
+    })
   }
 
   inizializeBlocks() {
@@ -107,6 +114,7 @@ class App extends React.Component {
           onClick={(coordinate) => this.handleClick(coordinate)}
         />
         <ControlBoard
+          onClick={() => this.newGame()}
         />
       </div>
     );
