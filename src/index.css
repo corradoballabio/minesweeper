@@ -1,3 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0.5rem;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.app {
+  width:100%;
+  display: flex;
+  flex-direction: row;
+}
+
 .grid-row:after {
   clear: both;
   content: "";
@@ -65,11 +84,4 @@
 
 .risk_8 {
   background-image: url(./icons/risk_8.png);
-}
-
-.app {
-  width:100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
 }
