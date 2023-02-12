@@ -35,7 +35,9 @@ class App extends React.Component {
 
   handleNewGameClick() {
     this.setState({
-      blocks: this.inizializeBlocks()
+      blocks: this.inizializeBlocks(),
+      isGameStarted: false,
+      isSafeMode: false
     })
   }
 
