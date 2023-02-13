@@ -47,7 +47,10 @@ class App extends React.Component {
     })
   }
 
-  handleBlockClick(coordinate) {
+  handleBlockClick(coordinate, e) {
+    e.preventDefault()
+
+    let isRightClick = e.type === 'contextmenu'
     const [x, y] = coordinate
     const tmpBlocks = this.state.blocks.slice()
     let isGameStarted = this.state.isGameStarted
@@ -60,7 +63,7 @@ class App extends React.Component {
 
     if(!tmpBlocks[x][y].isHidden) return
 
-    if(this.state.isSafeMode) {
+    if(isRightClick || this.state.isSafeMode) {
       tmpBlocks[x][y].isFlagged = !tmpBlocks[x][y].isFlagged
     } else if(tmpBlocks[x][y].hasMine) {
       tmpBlocks[x][y].isHidden = false
@@ -155,7 +158,7 @@ class App extends React.Component {
       <div className='app'>
         <Grid
           blocks={this.state.blocks}
-          onClick={(coordinate) => this.handleBlockClick(coordinate)}
+          onClick={(coordinate, e) => this.handleBlockClick(coordinate, e)}
         />
         <ControlBoard
           onNewGameClick={() => this.handleNewGameClick()}
