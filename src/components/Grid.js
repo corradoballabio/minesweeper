@@ -17,7 +17,7 @@ function Grid(props) {
                   isHidden={block.isHidden}
                   hasMine={block.hasMine}
                   risk={block.risk}
-                  onClick={() => props.onClick(coordinate)}
+                  onClick={(e) => props.onClick(coordinate, e)}
                 />
               )
             })}

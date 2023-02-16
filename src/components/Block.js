@@ -10,6 +10,7 @@ function Block(props) {
       key={1}
       className={`block ${displayIcon}`}
       onClick={props.onClick}
+      onContextMenu={props.onClick}
     />
   )
 }

@@ -5,11 +5,14 @@ import ControlBoard from './ControlBoard'
 class App extends React.Component {
   constructor(props) {
     super(props)
+
     this.rows = 9
     this.columns = 9
-    this.difficulty = 0.14 // easy = 12; medium = 16; hard = 20
+    this.totalMines = 10
+
     this.state = {
       blocks: this.inizializeBlocks(),
+      isGameStarted: false,
       isSafeMode: false
     }
   }
@@ -20,36 +23,21 @@ class App extends React.Component {
         isHidden: true,
         isFlagged: false,
         risk: null,
-        hasMine: Math.random() < this.difficulty
+        hasMine: false //Math.random() < this.difficulty
       }
     })
 
-    let matrix = arr.reduce((matrix, k, i) => {
-      i % this.rows === 0 ? matrix.push([k]) : matrix[matrix.length-1].push(k)
-      return matrix;
+    return arr.reduce((grid, k, i) => {
+      i % this.rows === 0 ? grid.push([k]) : grid[grid.length-1].push(k)
+      return grid;
     }, []);
-
-
-    let mines = matrix.reduce((acc, row, i) => {
-      row.forEach((block, j) => {
-        if(block.hasMine) acc.push([i, j])
-      })
-      return acc
-    }, [])
-
-    mines.forEach(coord => {
-      let neighbors = this.getNeighbors(coord)
-      neighbors.forEach(neighbor => {
-        const[x, y] = neighbor
-        matrix[x][y].risk++
-      })
-    })
-    return matrix
   }
 
   handleNewGameClick() {
     this.setState({
-      blocks: this.inizializeBlocks()
+      blocks: this.inizializeBlocks(),
+      isGameStarted: false,
+      isSafeMode: false
     })
   }
 
@@ -59,13 +47,23 @@ class App extends React.Component {
     })
   }
 
-  handleBlockClick(coordinate) {
+  handleBlockClick(coordinate, e) {
+    e.preventDefault()
+
+    let isRightClick = e.type === 'contextmenu'
     const [x, y] = coordinate
     const tmpBlocks = this.state.blocks.slice()
+    let isGameStarted = this.state.isGameStarted
+
+    if(!this.state.isGameStarted) {
+      isGameStarted = !this.isGameStarted
+      this.mineGrid(tmpBlocks, coordinate)
+      this.setRisks(tmpBlocks)
+    }
 
     if(!tmpBlocks[x][y].isHidden) return
 
-    if(this.state.isSafeMode) {
+    if(isRightClick || this.state.isSafeMode) {
       tmpBlocks[x][y].isFlagged = !tmpBlocks[x][y].isFlagged
     } else if(tmpBlocks[x][y].hasMine) {
       tmpBlocks[x][y].isHidden = false
@@ -77,7 +75,40 @@ class App extends React.Component {
     }
 
     this.setState({
-      blocks: tmpBlocks
+      blocks: tmpBlocks,
+      isGameStarted: isGameStarted
+    })
+  }
+
+  mineGrid(grid, coordinate) {
+    let mineCounter = 0
+    let [x, y] = coordinate
+
+    while(mineCounter < this.totalMines) {
+      const i = Math.floor(Math.random() * this.rows)
+      const j = Math.floor(Math.random() * this.columns)
+
+      if(grid[i][j].hasMine || (i === x && j === y)) continue
+
+      grid[i][j].hasMine = true
+      mineCounter++
+    }
+  }
+
+  setRisks(grid) {
+    let mines = grid.reduce((acc, row, i) => {
+      row.forEach((block, j) => {
+        if(block.hasMine) acc.push([i, j])
+      })
+      return acc
+    }, [])
+
+    mines.forEach(coord => {
+      let neighbors = this.getNeighbors(coord)
+      neighbors.forEach(neighbor => {
+        const[x, y] = neighbor
+        grid[x][y].risk++
+      })
     })
   }
 
@@ -127,7 +158,7 @@ class App extends React.Component {
       <div className='app'>
         <Grid
           blocks={this.state.blocks}
-          onClick={(coordinate) => this.handleBlockClick(coordinate)}
+          onClick={(coordinate, e) => this.handleBlockClick(coordinate, e)}
         />
         <ControlBoard
           onNewGameClick={() => this.handleNewGameClick()}
