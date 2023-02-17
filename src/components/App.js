@@ -1,6 +1,7 @@
 import React from 'react'
 import Grid from './Grid'
 import ControlBoard from './ControlBoard'
+import { withAlert } from 'react-alert'
 
 class App extends React.Component {
   constructor(props) {
@@ -162,6 +163,9 @@ class App extends React.Component {
         tmpBlocks[i][j].isHidden = false
       }
     }
+    alert.show('Click the start game button for a new match', {
+      title: "Game Over!"
+    })
   }
 
   render() {
@@ -180,4 +184,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withAlert() (App);
