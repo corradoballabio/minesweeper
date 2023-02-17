@@ -66,7 +66,7 @@ class App extends React.Component {
     if(isRightClick || this.state.isSafeMode) {
       tmpBlocks[x][y].isFlagged = !tmpBlocks[x][y].isFlagged
     } else if(tmpBlocks[x][y].hasMine) {
-      tmpBlocks[x][y].isHidden = false
+      this.endGame(tmpBlocks)
     } else if (tmpBlocks[x][y].risk) {
       tmpBlocks[x][y].isHidden = false
     } else {
@@ -151,6 +151,17 @@ class App extends React.Component {
     if(!isBottomBorder && !isRightBorder) neighbors.push([x+1, y+1])
 
     return neighbors
+  }
+
+  endGame(tmpBlocks){
+    const alert = this.props.alert;
+
+    for(let i=0; i<this.rows; i++) {
+      for(let j=0; j<this.rows; j++) {
+        tmpBlocks[i][j].isFlagged = false
+        tmpBlocks[i][j].isHidden = false
+      }
+    }
   }
 
   render() {
