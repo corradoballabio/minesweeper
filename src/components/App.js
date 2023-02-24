@@ -193,6 +193,7 @@ class App extends React.Component {
           onClick={(coordinate, e) => this.handleBlockClick(coordinate, e)}
         />
         <ControlBoard
+          timerActive={this.state.isGameOn}
           onNewGameClick={() => this.handleNewGameClick()}
           onFlagClick={() => this.handleFlagClick()}
         />
