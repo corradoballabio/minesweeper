@@ -14,12 +14,16 @@ body {
 .header {
   padding: 1rem;
   color: black;
+  border: 1px solid #000;
+  margin: 0.5rem;
 }
 
 .app {
-  width:100%;
+  margin-inline: auto;
+  padding: 2rem;
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 ul {

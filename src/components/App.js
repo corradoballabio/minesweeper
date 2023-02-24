@@ -1,6 +1,7 @@
 import React from 'react'
 import Grid from './Grid'
 import ControlBoard from './ControlBoard'
+import { withAlert } from 'react-alert'
 
 class App extends React.Component {
   constructor(props) {
@@ -66,13 +67,15 @@ class App extends React.Component {
     if(isRightClick || this.state.isSafeMode) {
       tmpBlocks[x][y].isFlagged = !tmpBlocks[x][y].isFlagged
     } else if(tmpBlocks[x][y].hasMine) {
-      tmpBlocks[x][y].isHidden = false
+      this.endGame(tmpBlocks)
     } else if (tmpBlocks[x][y].risk) {
       tmpBlocks[x][y].isHidden = false
     } else {
       tmpBlocks[x][y].isHidden = false
       this.displayNeighbors(coordinate, tmpBlocks)
     }
+
+    this.checkIfWin(tmpBlocks)
 
     this.setState({
       blocks: tmpBlocks,
@@ -153,6 +156,32 @@ class App extends React.Component {
     return neighbors
   }
 
+  endGame(tmpBlocks){
+    const alert = this.props.alert;
+
+    for(let i=0; i<this.rows; i++) {
+      for(let j=0; j<this.rows; j++) {
+        tmpBlocks[i][j].isFlagged = false
+        tmpBlocks[i][j].isHidden = false
+      }
+    }
+    alert.show('Click the start game button for a new match', {
+      title: "Game Over!"
+    })
+  }
+
+  checkIfWin(tmpBlocks) {
+    const alert = this.props.alert;
+
+    let winningConfig = !tmpBlocks.some(row => row.some(block => block.hasMine ^ block.isHidden))
+
+    if(winningConfig) {
+      alert.show('Click the start game button for a new match', {
+        title: "Game Won!"
+      })
+    }
+  }
+
   render() {
     return (
       <div className='app'>
@@ -169,4 +198,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withAlert() (App);
