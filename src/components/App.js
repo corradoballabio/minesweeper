@@ -75,6 +75,8 @@ class App extends React.Component {
       this.displayNeighbors(coordinate, tmpBlocks)
     }
 
+    this.checkIfWin(tmpBlocks)
+
     this.setState({
       blocks: tmpBlocks,
       isGameStarted: isGameStarted
@@ -166,6 +168,18 @@ class App extends React.Component {
     alert.show('Click the start game button for a new match', {
       title: "Game Over!"
     })
+  }
+
+  checkIfWin(tmpBlocks) {
+    const alert = this.props.alert;
+
+    let winningConfig = !tmpBlocks.some(row => row.some(block => block.hasMine ^ block.isHidden))
+
+    if(winningConfig) {
+      alert.show('Click the start game button for a new match', {
+        title: "Game Won!"
+      })
+    }
   }
 
   render() {
