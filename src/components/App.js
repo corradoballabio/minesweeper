@@ -13,7 +13,7 @@ class App extends React.Component {
 
     this.state = {
       blocks: this.inizializeBlocks(),
-      isGameStarted: false,
+      isGameOn: false,
       isSafeMode: false
     }
   }
@@ -37,7 +37,7 @@ class App extends React.Component {
   handleNewGameClick() {
     this.setState({
       blocks: this.inizializeBlocks(),
-      isGameStarted: false,
+      isGameOn: false,
       isSafeMode: false
     })
   }
@@ -54,10 +54,10 @@ class App extends React.Component {
     let isRightClick = e.type === 'contextmenu'
     const [x, y] = coordinate
     const tmpBlocks = this.state.blocks.slice()
-    let isGameStarted = this.state.isGameStarted
+    let isGameOn = this.state.isGameOn
 
-    if(!this.state.isGameStarted) {
-      isGameStarted = !this.isGameStarted
+    if(!this.state.isGameOn) {
+      isGameOn = !this.isGameOn
       this.mineGrid(tmpBlocks, coordinate)
       this.setRisks(tmpBlocks)
     }
@@ -68,6 +68,7 @@ class App extends React.Component {
       tmpBlocks[x][y].isFlagged = !tmpBlocks[x][y].isFlagged
     } else if(tmpBlocks[x][y].hasMine) {
       this.endGame(tmpBlocks)
+      isGameOn = false
     } else if (tmpBlocks[x][y].risk) {
       tmpBlocks[x][y].isHidden = false
     } else {
@@ -75,11 +76,11 @@ class App extends React.Component {
       this.displayNeighbors(coordinate, tmpBlocks)
     }
 
-    this.checkIfWin(tmpBlocks)
+    if(this.checkIfWin(tmpBlocks)) isGameOn = false
 
     this.setState({
       blocks: tmpBlocks,
-      isGameStarted: isGameStarted
+      isGameOn: isGameOn
     })
   }
 
@@ -180,6 +181,8 @@ class App extends React.Component {
         title: "Game Won!"
       })
     }
+
+    return winningConfig
   }
 
   render() {
@@ -190,6 +193,7 @@ class App extends React.Component {
           onClick={(coordinate, e) => this.handleBlockClick(coordinate, e)}
         />
         <ControlBoard
+          timerActive={this.state.isGameOn}
           onNewGameClick={() => this.handleNewGameClick()}
           onFlagClick={() => this.handleFlagClick()}
         />
