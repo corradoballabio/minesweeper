@@ -18,6 +18,15 @@ body {
   margin: 0.5rem;
 }
 
+.timer {
+  font-size: 2em;
+  text-align: center;
+  padding: 0 .5rem;
+  color: black;
+  border: 1px solid #000;
+  margin: 0.5rem 0;
+}
+
 .app {
   margin-inline: auto;
   padding: 2rem;

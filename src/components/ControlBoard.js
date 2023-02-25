@@ -15,11 +15,13 @@ function ControlBoard(props) {
     props.onNewGameClick()
   }
 
+  const formattedTimer = ('0000' + timer).substring(timer.toString().length)
+
   return(
     <div className='header'>
       <h2>minesweeper</h2>
       <ul>
-        <li>{timer}</li>
+        <li className='timer'>{formattedTimer}</li>
         <li><button onClick={handleNewGameClick}>start</button></li>
         <li><button onClick={props.onFlagClick}>flag</button></li>
       </ul>
