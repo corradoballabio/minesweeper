@@ -18,6 +18,10 @@ body {
   margin: 0.5rem;
 }
 
+.header h2 {
+  padding-bottom: 1rem;
+}
+
 .timer {
   font-size: 2em;
   text-align: center;
