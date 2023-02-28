@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 function ControlBoard(props) {
   let [timer, setTimer] = useState(0)
-  let [flagClicked, setFlagClicked] = useState(false)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -16,22 +15,17 @@ function ControlBoard(props) {
     props.onNewGameClick()
   }
 
-  const handleFlagClick = () => {
-    setFlagClicked(flagClicked => !flagClicked)
-    props.onFlagClick()
-  }
-
   const formattedTimer = ('0000' + timer).substring(timer.toString().length)
 
   const newGameIcon = props.timerActive ? 'smiley' : 'sad'
-  const flaggedIcon = flagClicked ? 'flaggedClicked' : 'flagged'
+  const flaggedIcon = props.isSafe ? 'flaggedClicked' : 'flagged'
 
   return(
     <div className='header'>
       <div><h2>minesweeper</h2></div>
       <div className='timer'>{formattedTimer}</div>
       <div><button className={`boardIcon ${newGameIcon}`} onClick={handleNewGameClick}></button></div>
-      <div><button className={`boardIcon ${flaggedIcon}`} onClick={handleFlagClick}></button></div>
+      <div><button className={`boardIcon ${flaggedIcon}`} onClick={props.onFlagClick}></button></div>
     </div>
   )
 }

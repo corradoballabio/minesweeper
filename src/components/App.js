@@ -196,6 +196,7 @@ class App extends React.Component {
         />
         <ControlBoard
           timerActive={this.state.isGameOn}
+          isSafe={this.state.isSafeMode}
           onNewGameClick={() => this.handleNewGameClick()}
           onFlagClick={() => this.handleFlagClick()}
         />
