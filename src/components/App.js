@@ -62,7 +62,7 @@ class App extends React.Component {
       this.setRisks(tmpBlocks)
     }
 
-    if(!tmpBlocks[x][y].isHidden) return
+    if(!tmpBlocks[x][y].isHidden || tmpBlocks[x][y].isFlagged) return
 
     if(isRightClick || this.state.isSafeMode) {
       tmpBlocks[x][y].isFlagged = !tmpBlocks[x][y].isFlagged
