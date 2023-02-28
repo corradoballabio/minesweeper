@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 function ControlBoard(props) {
   let [timer, setTimer] = useState(0)
+  let [flagClicked, setFlagClicked] = useState(false)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -13,6 +14,11 @@ function ControlBoard(props) {
   const handleNewGameClick = () => {
     setTimer(0)
     props.onNewGameClick()
+  }
+
+  const handleFlagClick = () => {
+    setFlagClicked(flagClicked => !flagClicked)
+    props.onFlagClick()
   }
 
   const formattedTimer = ('0000' + timer).substring(timer.toString().length)
