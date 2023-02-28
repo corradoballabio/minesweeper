@@ -62,10 +62,12 @@ class App extends React.Component {
       this.setRisks(tmpBlocks)
     }
 
-    if(!tmpBlocks[x][y].isHidden || tmpBlocks[x][y].isFlagged) return
-
-    if(isRightClick || this.state.isSafeMode) {
+    if(!tmpBlocks[x][y].isHidden) {
+      return
+    } else if(isRightClick || this.state.isSafeMode) {
       tmpBlocks[x][y].isFlagged = !tmpBlocks[x][y].isFlagged
+    } else if(!tmpBlocks[x][y].isHidden ||tmpBlocks[x][y].isFlagged) {
+      return
     } else if(tmpBlocks[x][y].hasMine) {
       this.endGame(tmpBlocks)
       isGameOn = false
