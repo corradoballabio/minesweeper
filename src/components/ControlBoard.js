@@ -17,7 +17,7 @@ function ControlBoard(props) {
 
   const formattedTimer = ('0000' + timer).substring(timer.toString().length)
 
-  const newGameIcon = props.timerActive ? 'smiley' : 'sad'
+  const newGameIcon = props.isGameLost ? 'sad' : 'smiley'
   const flaggedIcon = props.isSafe ? 'flaggedClicked' : 'flagged'
 
   return(
