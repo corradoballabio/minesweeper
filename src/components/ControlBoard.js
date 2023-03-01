@@ -17,14 +17,15 @@ function ControlBoard(props) {
 
   const formattedTimer = ('0000' + timer).substring(timer.toString().length)
 
+  const newGameIcon = props.isGameLost ? 'sad' : 'smiley'
+  const flaggedIcon = props.isSafe ? 'flaggedClicked' : 'flagged'
+
   return(
     <div className='header'>
-      <h2>minesweeper</h2>
-      <ul>
-        <li className='timer'>{formattedTimer}</li>
-        <li><button onClick={handleNewGameClick}>start</button></li>
-        <li><button onClick={props.onFlagClick}>flag</button></li>
-      </ul>
+      <div><h2>minesweeper</h2></div>
+      <div className='timer'>{formattedTimer}</div>
+      <div><button className={`boardIcon ${newGameIcon}`} onClick={handleNewGameClick}></button></div>
+      <div><button className={`boardIcon ${flaggedIcon}`} onClick={props.onFlagClick}></button></div>
     </div>
   )
 }

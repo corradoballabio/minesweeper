@@ -14,6 +14,7 @@ class App extends React.Component {
     this.state = {
       blocks: this.inizializeBlocks(),
       isGameOn: false,
+      isGameLost: false,
       isSafeMode: false
     }
   }
@@ -38,6 +39,7 @@ class App extends React.Component {
     this.setState({
       blocks: this.inizializeBlocks(),
       isGameOn: false,
+      isGameLost: false,
       isSafeMode: false
     })
   }
@@ -55,6 +57,7 @@ class App extends React.Component {
     const [x, y] = coordinate
     const tmpBlocks = this.state.blocks.slice()
     let isGameOn = this.state.isGameOn
+    let isGameLost = this.state.isGameLost
 
     if(!this.state.isGameOn) {
       isGameOn = !this.isGameOn
@@ -62,13 +65,16 @@ class App extends React.Component {
       this.setRisks(tmpBlocks)
     }
 
-    if(!tmpBlocks[x][y].isHidden) return
-
-    if(isRightClick || this.state.isSafeMode) {
+    if(!tmpBlocks[x][y].isHidden) {
+      return
+    } else if(isRightClick || this.state.isSafeMode) {
       tmpBlocks[x][y].isFlagged = !tmpBlocks[x][y].isFlagged
+    } else if(!tmpBlocks[x][y].isHidden ||tmpBlocks[x][y].isFlagged) {
+      return
     } else if(tmpBlocks[x][y].hasMine) {
       this.endGame(tmpBlocks)
       isGameOn = false
+      isGameLost = true
     } else if (tmpBlocks[x][y].risk) {
       tmpBlocks[x][y].isHidden = false
     } else {
@@ -80,7 +86,8 @@ class App extends React.Component {
 
     this.setState({
       blocks: tmpBlocks,
-      isGameOn: isGameOn
+      isGameOn: isGameOn,
+      isGameLost: isGameLost
     })
   }
 
@@ -194,6 +201,8 @@ class App extends React.Component {
         />
         <ControlBoard
           timerActive={this.state.isGameOn}
+          isSafe={this.state.isSafeMode}
+          isGameLost={this.state.isGameLost}
           onNewGameClick={() => this.handleNewGameClick()}
           onFlagClick={() => this.handleFlagClick()}
         />
